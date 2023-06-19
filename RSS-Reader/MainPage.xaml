@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage
+    x:Class="RSS_Reader.MainPage"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:models="clr-namespace:RSS_Reader.Lib.Models;assembly=RSS-Reader.Lib"
+    xmlns:viewmodels="clr-namespace:RSS_Reader.ViewModels"
+    x:DataType="viewmodels:MainViewModel">
+
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="auto" />
+        </Grid.ColumnDefinitions>
+
+        <ImageButton
+            Grid.Row="0"
+            Grid.Column="1"
+            Margin="10"
+            Padding="3"
+            Command="{Binding ToggleThemeModeCommand}"
+            HorizontalOptions="End"
+            Source="mode.png"
+            VerticalOptions="Center" />
+
+        <StackLayout
+            Grid.Row="0"
+            Grid.Column="0"
+            HorizontalOptions="Start"
+            Orientation="Horizontal"
+            VerticalOptions="Center">
+
+            <Label
+                Margin="10,0,10,0"
+                HorizontalOptions="Start"
+                Text="RSS Feed Link mit https:"
+                VerticalOptions="Center" />
+
+            <Entry
+                Margin="10,0,0,0"
+                ClearButtonVisibility="WhileEditing"
+                Text="{Binding Url, Mode=TwoWay}"
+                VerticalOptions="Center"
+                WidthRequest="300" />
+
+            <ImageButton
+                Margin="10"
+                Padding="3"
+                Command="{Binding AddRssFeedCommand}"
+                Source="plus.png" />
+
+            <ImageButton
+                Margin="0,10,0,10"
+                Padding="3"
+                Command="{Binding UpdateRssFeedsCommand}"
+                Source="reload.png" />
+
+        </StackLayout>
+
+        <CollectionView
+            Grid.Row="1"
+            Grid.Column="0"
+            Grid.ColumnSpan="2"
+            HorizontalOptions="StartAndExpand"
+            ItemsLayout="HorizontalList"
+            ItemsSource="{Binding RssFeeds}"
+            VerticalOptions="StartAndExpand">
+
+            <CollectionView.EmptyView>
+                <Label
+                    FontAttributes="Bold"
+                    FontSize="20"
+                    HorizontalOptions="CenterAndExpand"
+                    HorizontalTextAlignment="Center"
+                    Text="Keine Feeds geladen"
+                    VerticalOptions="CenterAndExpand"
+                    VerticalTextAlignment="Center" />
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="models:RssFeed">
+                    <StackLayout
+                        Margin="10"
+                        Orientation="Vertical"
+                        WidthRequest="800">
+                        <Grid
+                            Background="{AppThemeBinding Light={StaticResource Primary},
+                                                         Dark={StaticResource Gray900},
+                                                         Default={StaticResource Primary}}"
+                            MaximumWidthRequest="800"
+                            WidthRequest="800">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="50" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                Grid.Column="0"
+                                Margin="20,0,0,0"
+                                FontAttributes="Bold"
+                                FontSize="18"
+                                HorizontalOptions="Start"
+                                Text="{Binding Title}"
+                                VerticalOptions="Center" />
+                            <Button
+                                Grid.Column="1"
+                                Margin="0,7,10,7"
+                                Background="{AppThemeBinding Light={StaticResource White},
+                                                             Dark={StaticResource Primary},
+                                                             Default={StaticResource White}}"
+                                Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainViewModel}}, Path=DeleteFeedCommand}"
+                                CommandParameter="{Binding Link}"
+                                HorizontalOptions="End"
+                                Text="Delete"
+                                TextColor="{AppThemeBinding Light={StaticResource Black},
+                                                            Dark={StaticResource White},
+                                                            Default={StaticResource Black}}"
+                                VerticalOptions="Center" />
+                        </Grid>
+                        <CollectionView
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            HorizontalOptions="StartAndExpand"
+                            HorizontalScrollBarVisibility="Never"
+                            ItemsSource="{Binding Items}"
+                            MaximumWidthRequest="800"
+                            VerticalOptions="StartAndExpand">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate x:DataType="models:RssFeedItem">
+                                    <Border MaximumHeightRequest="400" MaximumWidthRequest="800">
+                                        <Grid MaximumWidthRequest="800">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="40" />
+                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="40" />
+                                            </Grid.ColumnDefinitions>
+                                            <CheckBox
+                                                Grid.Column="0"
+                                                Margin="10,0,0,0"
+                                                HorizontalOptions="Center"
+                                                IsChecked="{Binding Selected, Mode=TwoWay}"
+                                                VerticalOptions="Center" />
+                                            <StackLayout Grid.Column="1">
+                                                <Label
+                                                    Margin="5,0,0,8"
+                                                    FontAttributes="Bold"
+                                                    FontSize="15"
+                                                    Text="{Binding Title}" />
+                                                <StackLayout Margin="10">
+                                                    <Label LineBreakMode="WordWrap" Text="{Binding Description}" />
+                                                    <Label
+                                                        Margin="0,5,0,0"
+                                                        FontAttributes="Italic"
+                                                        FontSize="8"
+                                                        LineBreakMode="WordWrap"
+                                                        Text="{Binding Link}" />
+                                                    <Label
+                                                        Margin="0,0,0,8"
+                                                        FontAttributes="Bold"
+                                                        FontSize="6"
+                                                        HorizontalTextAlignment="End"
+                                                        Text="{Binding PublishDate, StringFormat='{}{0:MM/dd/yyyy hh:mm tt}'}" />
+                                                </StackLayout>
+                                            </StackLayout>
+                                            <Image
+                                                Grid.Column="2"
+                                                Margin="5"
+                                                Background="{AppThemeBinding Light={StaticResource White},
+                                                                             Dark={StaticResource Primary},
+                                                                             Default={StaticResource White}}"
+                                                IsVisible="{Binding New}"
+                                                Source="new.png" />
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
+</ContentPage>
