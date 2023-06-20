@@ -7,14 +7,14 @@
     xmlns:viewmodels="clr-namespace:RSS_Reader.ViewModels"
     x:DataType="viewmodels:MainViewModel">
 
-    <Grid HorizontalOptions="Fill" VerticalOptions="Fill">
+    <Grid HorizontalOptions="Fill" VerticalOptions="Fill"> <!--geht über die gesamte breite-->
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" /> <!--Passt sich nach dem Inhalt an-->
         </Grid.ColumnDefinitions>
 
         <ImageButton
@@ -43,7 +43,7 @@
             <Entry
                 Margin="10,0,0,0"
                 ClearButtonVisibility="WhileEditing"
-                Text="{Binding Url, Mode=TwoWay}"
+                Text="{Binding Url}"     
                 VerticalOptions="Center"
                 WidthRequest="300" />
 
@@ -65,19 +65,19 @@
             Grid.Row="1"
             Grid.Column="0"
             Grid.ColumnSpan="2"
-            HorizontalOptions="StartAndExpand"
+            HorizontalOptions="Start"
             ItemsLayout="HorizontalList"
             ItemsSource="{Binding RssFeeds}"
-            VerticalOptions="StartAndExpand">
+            VerticalOptions="Start"> <!--Horizontale Liste die am Linken Rand ist, ColumnSpan über zwei Spalten überstreckt-->
 
             <CollectionView.EmptyView>
                 <Label
                     FontAttributes="Bold"
                     FontSize="20"
-                    HorizontalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"
                     HorizontalTextAlignment="Center"
                     Text="Keine Feeds geladen"
-                    VerticalOptions="CenterAndExpand"
+                    VerticalOptions="Center"
                     VerticalTextAlignment="Center" />
             </CollectionView.EmptyView>
 
@@ -89,8 +89,7 @@
                         WidthRequest="800">
                         <Grid
                             Background="{AppThemeBinding Light={StaticResource Primary},
-                                                         Dark={StaticResource Gray900},
-                                                         Default={StaticResource Primary}}"
+                                                         Dark={StaticResource Gray900}}"
                             MaximumWidthRequest="800"
                             WidthRequest="800">
                             <Grid.ColumnDefinitions>
@@ -109,23 +108,21 @@
                                 Grid.Column="1"
                                 Margin="0,7,10,7"
                                 Background="{AppThemeBinding Light={StaticResource White},
-                                                             Dark={StaticResource Primary},
-                                                             Default={StaticResource White}}"
+                                                             Dark={StaticResource Primary}}"
                                 Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodels:MainViewModel}}, Path=DeleteFeedCommand}"
                                 CommandParameter="{Binding Link}"
                                 HorizontalOptions="End"
                                 Text="Delete"
                                 TextColor="{AppThemeBinding Light={StaticResource Black},
-                                                            Dark={StaticResource White},
-                                                            Default={StaticResource Black}}"
-                                VerticalOptions="Center" />
+                                                            Dark={StaticResource White}}"
+                                VerticalOptions="Center" /> <!--Wenn man den Button drückt, wird über Datenbindung an den Befehl "DeleteFeedCommand" zum MainViewModel Objekt gebunden. 
+                                                            durch die Bindung wird eine Verbidnung des Button und dem Befehl gehen. Deswegen Aktion Löschen Feed ausgeführt werden kann-->
                         </Grid>
                         <CollectionView
                             Grid.Row="1"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            HorizontalOptions="StartAndExpand"
-                            HorizontalScrollBarVisibility="Never"
+                            HorizontalOptions="Start"
                             ItemsSource="{Binding Items}"
                             MaximumWidthRequest="800"
                             VerticalOptions="StartAndExpand">
@@ -135,14 +132,14 @@
                                         <Grid MaximumWidthRequest="800">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="40" />
-                                                <ColumnDefinition Width="*" />
+                                                <ColumnDefinition Width="720" />
                                                 <ColumnDefinition Width="40" />
                                             </Grid.ColumnDefinitions>
                                             <CheckBox
                                                 Grid.Column="0"
                                                 Margin="10,0,0,0"
                                                 HorizontalOptions="Center"
-                                                IsChecked="{Binding Selected, Mode=TwoWay}"
+                                                IsChecked="{Binding Selected}"
                                                 VerticalOptions="Center" />
                                             <StackLayout Grid.Column="1">
                                                 <Label
@@ -155,13 +152,13 @@
                                                     <Label
                                                         Margin="0,5,0,0"
                                                         FontAttributes="Italic"
-                                                        FontSize="8"
-                                                        LineBreakMode="WordWrap"
-                                                        Text="{Binding Link}" />
+                                                        FontSize="9"
+                                                        LineBreakMode="WordWrap" 
+                                                        Text="{Binding Link}" /> <!--Angemessen angezeigt-->
                                                     <Label
                                                         Margin="0,0,0,8"
                                                         FontAttributes="Bold"
-                                                        FontSize="6"
+                                                        FontSize="10"
                                                         HorizontalTextAlignment="End"
                                                         Text="{Binding PublishDate, StringFormat='{}{0:MM/dd/yyyy hh:mm tt}'}" />
                                                 </StackLayout>
@@ -170,8 +167,7 @@
                                                 Grid.Column="2"
                                                 Margin="5"
                                                 Background="{AppThemeBinding Light={StaticResource White},
-                                                                             Dark={StaticResource Primary},
-                                                                             Default={StaticResource White}}"
+                                                                             Dark={StaticResource Primary}}"
                                                 IsVisible="{Binding New}"
                                                 Source="new.png" />
                                         </Grid>
