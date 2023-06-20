@@ -25,8 +25,8 @@ namespace RSS_Reader.Lib.Services
         {
             if (!string.IsNullOrEmpty(url))
             {
-                var handler = new RssFeedHandler(url);
-                feedHandlers.Add(handler);
+                var handler = new RssFeedHandler(url); 
+                feedHandlers.Add(handler); // handler komponent der spezielle Aufgaben
             }
         }
 

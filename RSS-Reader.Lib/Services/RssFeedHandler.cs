@@ -33,9 +33,9 @@ namespace RSS_Reader.Lib.Services
                 {
                     var feed = SyndicationFeed.Load(reader);
 
-                    var newFeed = new RssFeed
+                    var newFeed = new RssFeed           
                     {
-                        Title = feed.Title.Text,
+                        Title = feed.Title.Text,                
                         Link = feed.Links[0].Uri.ToString(),
                         Description = feed.Description.Text,
                         Items = feed.Items.Select(item => new RssFeedItem
@@ -54,7 +54,7 @@ namespace RSS_Reader.Lib.Services
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.Message);      
             }
         }
 
