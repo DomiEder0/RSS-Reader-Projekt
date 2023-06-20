@@ -11,7 +11,7 @@ namespace RSS_Reader.Lib.Models
         public string Title { get; set; }
         public string Link { get; set; }
         public string Description { get; set; }
-        public IEnumerable<RssFeedItem> Items { get; set; }
+        public IEnumerable<RssPost> Items { get; set; }
 
     }
 }

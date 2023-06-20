@@ -106,7 +106,7 @@ namespace RSS_Reader.Lib.Services
                     Link = (string)feed.Element("Link"),
                     Description = (string)feed.Element("Description"),
                     Items = feed.Element("Items").Elements("Item")
-                        .Select(item => new RssFeedItem
+                        .Select(item => new RssPost
                         {
                             Title = (string)item.Element("Title"),
                             Link = (string)item.Element("Link"),

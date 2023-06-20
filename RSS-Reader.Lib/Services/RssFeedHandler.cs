@@ -28,7 +28,7 @@ namespace RSS_Reader.Lib.Services
             try
             {
                 XmlReaderSettings settings = new XmlReaderSettings();
-                settings.DtdProcessing = DtdProcessing.Parse; // or DtdProcessing.Ignore
+                settings.DtdProcessing = DtdProcessing.Parse;
                 using (XmlReader reader = XmlReader.Create(url, settings))
                 {
                     var feed = SyndicationFeed.Load(reader);
@@ -38,7 +38,7 @@ namespace RSS_Reader.Lib.Services
                         Title = feed.Title.Text,
                         Link = feed.Links[0].Uri.ToString(),
                         Description = feed.Description.Text,
-                        Items = feed.Items.Select(item => new RssFeedItem
+                        Items = feed.Items.Select(item => new RssPost
                         {
                             Title = item.Title.Text,
                             Link = item.Links[0].Uri.ToString(),

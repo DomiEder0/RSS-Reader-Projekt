@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RSS_Reader.Lib.Models
 {
-    public class RssFeedItem
+    public class RssPost
     {
         public string Title { get; set; }
         public string Link { get; set; }
